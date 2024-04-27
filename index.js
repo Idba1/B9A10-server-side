@@ -10,9 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.wwse58h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-console.log(uri);
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -25,6 +23,15 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+
+   
+
+    app.post('/addspot', async (req, res) => {
+      const addSpot = req.body;
+      console.log(addSpot);
+    })
+
+
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
@@ -42,6 +49,8 @@ run().catch(console.dir);
 app.get('/', (req, res) => {
   res.send('Euro Journey Server Side')
 })
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
