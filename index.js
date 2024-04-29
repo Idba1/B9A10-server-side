@@ -29,6 +29,8 @@ async function run() {
     const spotCollection = client.db('spotDB').collection('spot');
     // TouristSpotSection
     const touristSpotSection = client.db('spotDB').collection('touristme');
+    // userCollection
+    const userCollection = client.db('spotDB').collection('user');
 
     // SpotCollectionFromUSer
     app.get('/addspot', async (req, res) => {
@@ -43,6 +45,8 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     })
+
+    
 
     // SpotCollectionFromUSer
     app.post('/addspot', async (req, res) => {
@@ -59,6 +63,14 @@ async function run() {
       const result = await touristSpotSection.insertOne(TouristSpot);
       res.send(result);
     })
+
+    // userCollection
+    app.post('/user', async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+  });
 
 
     // Connect the client to the server	(optional starting in v4.7)
