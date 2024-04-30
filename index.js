@@ -49,7 +49,7 @@ async function run() {
 
     app.get("/myadd/:email", async (req, res) => {
       console.log(req.params.email);
-      const result = await spotCollection.find({ email: req.params.email }).toArray();
+      const result = await touristSpotSection.find({ email: req.params.email}).toArray();
       res.send(result)
     })
 
