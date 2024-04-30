@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000;
 
@@ -46,6 +46,13 @@ async function run() {
       res.send(result);
     })
 
+
+    app.get("/myadd/:email", async (req, res) => {
+      console.log(req.params.email);
+      const result = await spotCollection.find({ email: req.params.email }).toArray();
+      res.send(result)
+    })
+
     
 
     // SpotCollectionFromUSer
@@ -72,11 +79,8 @@ async function run() {
       res.send(result);
   });
 
-  // app.get("/myProduct/:email", async (req, res) => {
-  //   console.log(req.params.email);
-  //   const result = await productCollection.find({ email: req.params.email }).toArray();
-  //   res.send(result)
-  // })
+  
+  
 
 
     // Connect the client to the server	(optional starting in v4.7)
