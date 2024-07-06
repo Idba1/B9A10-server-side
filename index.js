@@ -57,9 +57,9 @@ async function run() {
       res.send(result);
     })
 
-    app.get("/addspot/:email", async (req, res) => {
-      console.log(req.params.email);
-      const result = await spotCollection.find({ email: req.params.email}).toArray();
+    app.get("/addspot/:userEmail", async (req, res) => {
+      console.log(req.params.userEmail);
+      const result = await spotCollection.find({ userEmail: req.params.userEmail}).toArray();
       res.send(result)
     })
 
