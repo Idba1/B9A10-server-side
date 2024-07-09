@@ -24,7 +24,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
 
-    
+
     // SpotCollectionFromUSer
     const spotCollection = client.db('spotDB').collection('spot');
     // TouristSpotSection
@@ -47,7 +47,7 @@ async function run() {
     })
 
 
-    
+
 
     // SpotCollectionFromUSer
     app.post('/addspot', async (req, res) => {
@@ -59,9 +59,22 @@ async function run() {
 
     app.get("/addspot/:userEmail", async (req, res) => {
       console.log(req.params.userEmail);
-      const result = await spotCollection.find({ userEmail: req.params.userEmail}).toArray();
+      const result = await spotCollection.find({ userEmail: req.params.userEmail }).toArray();
       res.send(result)
     })
+    app.get("/addspot/:_id", async (req, res) => {
+      console.log(req.params._id);
+      const result = await spotCollection.find({ _id: req.params._id }).toArray();
+      res.send(result)
+    })
+
+    // delete
+    app.delete('/addspot/:_id', async (req, res) => {
+      const id = req.params._id; 
+      const query = { _id: new ObjectId(id) };
+      const result = await spotCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // TouristSpotSection
     app.post('/alltouristspotsection', async (req, res) => {
@@ -77,10 +90,10 @@ async function run() {
       console.log(user);
       const result = await userCollection.insertOne(user);
       res.send(result);
-  });
+    });
 
-  
-  
+
+
 
 
     // Connect the client to the server	(optional starting in v4.7)
