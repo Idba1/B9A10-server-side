@@ -68,9 +68,21 @@ async function run() {
       res.send(result)
     })
 
+    // Update
+    app.put('/addspot/:id', async (req, res) => {
+      const id = req.params.id;
+      const updatedSpot = req.body;
+      const query = { _id: new ObjectId(id) };
+      const updateDocument = {
+        $set: updatedSpot,
+      };
+      const result = await spotCollection.updateOne(query, updateDocument);
+      res.send(result);
+    });
+
     // delete
     app.delete('/addspot/:_id', async (req, res) => {
-      const id = req.params._id; 
+      const id = req.params._id;
       const query = { _id: new ObjectId(id) };
       const result = await spotCollection.deleteOne(query);
       res.send(result);
