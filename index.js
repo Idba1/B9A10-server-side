@@ -5,8 +5,15 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000;
 
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
 // middleware
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
 
@@ -68,17 +75,33 @@ async function run() {
       res.send(result)
     })
 
-    // Update
-    app.put('/addspot/:id', async (req, res) => {
-      const id = req.params.id;
-      const updatedSpot = req.body;
-      const query = { _id: new ObjectId(id) };
-      const updateDocument = {
-        $set: updatedSpot,
-      };
-      const result = await spotCollection.updateOne(query, updateDocument);
-      res.send(result);
+
+    app.get("/addspot/:_id", async (req, res) => {
+      try {
+        const id = req.params._id;
+        console.log(id);
+        const query = { _id: new ObjectId(id) };
+        const result = await spotCollection.findOne(query);
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching spot by ID:", error);
+        res.status(500).send("Internal Server Error");
+      }
     });
+
+
+
+    // // Update
+    // app.put('/addspot/:id', async (req, res) => {
+    //   const id = req.params.id;
+    //   const updatedSpot = req.body;
+    //   const query = { _id: new ObjectId(id) };
+    //   const updateDocument = {
+    //     $set: updatedSpot,
+    //   };
+    //   const result = await spotCollection.updateOne(query, updateDocument);
+    //   res.send(result);
+    // });
 
     // delete
     app.delete('/addspot/:_id', async (req, res) => {
